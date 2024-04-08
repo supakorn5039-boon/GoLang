@@ -2,22 +2,28 @@ package main
 
 import "fmt"
 
-func main() {
-	var dayOfWeek = 6
+// Config represents the application configuration
+type Config struct {
+	LogLevel string
+	Port     int
+}
 
-	
-	switch dayOfWeek{
-	case 1:
-		fmt.Println("Monday")
-	case 2:
-		fmt.Println("Tuesday")
-	case 3:
-		fmt.Println("Wednesday")
-	case 4:
-		fmt.Println("Thursday")
-	case 5:
-		fmt.Println("Friday")
-	default:
-		fmt.Println("Invalid Day")
+// UpdateConfig modifies the provided configuration
+func UpdateConfig(c *Config, logLevel string, port int) {
+	c.LogLevel = logLevel
+	c.Port = port
+}
+
+func main() {
+	// Initial configuration
+	appConfig := &Config{
+		LogLevel: "info",
+		Port:     8080,
 	}
+
+	fmt.Println("Initial Config:", appConfig)
+
+	// Update configuration
+	UpdateConfig(appConfig, "debug", 9000)
+	fmt.Println("Updated Config:", appConfig)
 }
