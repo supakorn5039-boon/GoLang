@@ -8,3 +8,13 @@ config.json
 *.log
 
 .history/
+
+.gitignore
+
+
+# Stage all changes except .DS_Store and .gitignore
+git add --all :!/.DS_Store :!/.gitignore
+
+# Commit the changes
+git commit -m "Your commit message here"
+
