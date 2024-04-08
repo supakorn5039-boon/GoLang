@@ -2,28 +2,40 @@ package main
 
 import "fmt"
 
-// Config represents the application configuration
-type Config struct {
-	LogLevel string
-	Port     int
+
+type LoginError struct { 
+	Username string
+	Message string
 }
 
-// UpdateConfig modifies the provided configuration
-func UpdateConfig(c *Config, logLevel string, port int) {
-	c.LogLevel = logLevel
-	c.Port = port
+func (e *LoginError) Error() string {
+	return fmt.Sprintf("Login error for user '%s': %s",e.Username , e.Message)
 }
+
+func login(username,password string) error{
+	if username != "admin" || password != "12345"{	
+		return &LoginError{Username: username , Message: "Invalid credentials"}
+	}
+	return nil
+}
+
 
 func main() {
-	// Initial configuration
-	appConfig := &Config{
-		LogLevel: "info",
-		Port:     8080,
+	// Success
+	err := login("123","456")
+
+
+	if err != nil {
+		switch e := err.(type){
+		case *LoginError:
+			fmt.Println("Customer error" ,e)
+
+		default:
+		fmt.Println("Generic Error",e)
+		}
+		return 
 	}
+	fmt.Println("Login Sucess")
 
-	fmt.Println("Initial Config:", appConfig)
 
-	// Update configuration
-	UpdateConfig(appConfig, "debug", 9000)
-	fmt.Println("Updated Config:", appConfig)
 }
